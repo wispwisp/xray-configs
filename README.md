@@ -33,6 +33,7 @@ cat id_rsa.pub >> ~/.ssh/authorized_keys
 systemctl restart ssh
 ```
 ```
+Port 65534
 PermitRootLogin no
 PubkeyAuthentication yes
 PasswordAuthentication no

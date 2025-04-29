@@ -39,7 +39,7 @@
                 "realitySettings": {
                     "show": false,
                     "fingerprint": "chrome",
-                    "serverName": "www.microsoft.com",
+                    "serverName": "www.google.com",
                     "publicKey": "!!! GENERATE BY: ./xray x25519",
                     "shortId": "!!! GENERATE BY: openssl rand -hex 8"
                 }
