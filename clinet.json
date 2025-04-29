@@ -1,0 +1,106 @@
+{
+    "log": {
+        "access": "/home/wisp/xrayaccess.log",
+        "error": "/home/wisp/xrayerror.log",
+        "loglevel": "debug"
+    },
+    "inbounds": [
+        {
+            "port": 1080,
+            "listen": "127.0.0.1",
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "proxy",
+            "protocol": "vless",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "!!! server IP, ex: 127.0.0.1",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "!!! GENERATE BY: ./xray uuid",
+                                "flow": "xtls-rprx-vision",
+                                "encryption": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                    "show": false,
+                    "fingerprint": "chrome",
+                    "serverName": "www.microsoft.com",
+                    "publicKey": "!!! GENERATE BY: ./xray x25519",
+                    "shortId": "!!! GENERATE BY: openssl rand -hex 8"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        },
+        {
+            "tag": "block",
+            "protocol": "blackhole"
+        },
+        {
+            "tag": "direct",
+            "protocol": "freedom"
+        }
+    ],
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:category-ads-all"
+                ],
+                "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private",
+                    "geoip:ru"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    },
+    "dns": {
+        "servers": [
+            "https://1.1.1.1/dns-query",
+            {
+                "address": "https://8.8.8.8/dns-query",
+                "domains": [
+                    "geosite:netflix"
+                ],
+                "skipFallback": true,
+                "queryStrategy": "UseIPv4"
+            },
+            {
+                "address": "https://1.1.1.1/dns-query",
+                "domains": [
+                    "geosite:openai"
+                ],
+                "skipFallback": true,
+                "queryStrategy": "UseIPv6"
+            }
+        ],
+        "queryStrategy": "UseIP"
+    }
+}
