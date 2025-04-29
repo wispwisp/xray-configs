@@ -63,3 +63,8 @@ systemctl restart fail2ban
 ufw status numbered
 ufw delete 2
 ```
+
+### check all works
+```bash
+curl -v --resolve www.EXAMPLE.com:443:YOUR.IP.HERE.HERE https://www.EXAMPLE.com 
+```
